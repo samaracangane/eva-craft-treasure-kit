@@ -27,7 +27,7 @@ export const getPublicSite = createServerFn({ method: "GET" })
     ]);
     const content = (data.preview ? s.data?.draft : s.data?.data) ?? {};
     return {
-      content: content as Record<string, unknown>,
+      contentJson: JSON.stringify(content),
       media: (m.data ?? []) as MediaRow[],
       testimonials: (t.data ?? []) as TestimonialRow[],
     };

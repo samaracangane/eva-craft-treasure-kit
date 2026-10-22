@@ -1,24 +1,28 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SalesPage } from "@/components/landing/SalesPage";
+import { DEFAULT_CONTENT, mergeContent } from "@/lib/content";
+import { getPublicSite } from "@/lib/site.functions";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
+  validateSearch: (s: Record<string, unknown>) => ({ preview: s.preview === "1" || s.preview === 1 ? 1 : undefined }),
+  loaderDeps: ({ search }) => ({ preview: !!search.preview }),
+  loader: ({ deps }) => getPublicSite({ data: { preview: deps.preview } }),
+  head: () => ({
+    meta: [
+      { title: "Kit +5.000 Moldes de E.V.A. — Planos a partir de R$ 9,90" },
+      { name: "description", content: "Mais de 5.000 moldes de E.V.A. para artesãs, professoras e decoradoras. Escolha o Plano Básico ou Premium." },
+      { property: "og:title", content: "Kit com Mais de 5.000 Moldes de E.V.A." },
+      { property: "og:description", content: "Transforme suas ideias em criações incríveis. Planos Básico e Premium." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
 function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
+  const d = Route.useLoaderData();
+  const { preview } = Route.useSearch();
+  const c = mergeContent(DEFAULT_CONTENT, JSON.parse(d.contentJson));
+  return <SalesPage c={c} media={d.media} testimonials={d.testimonials} isPreview={!!preview} />;
 }
