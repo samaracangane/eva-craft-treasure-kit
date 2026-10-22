@@ -96,7 +96,7 @@ export function SalesPage({ c, media, testimonials, isPreview }: Props) {
     <div style={colorVars} className="min-h-screen overflow-x-clip bg-background pb-20 md:pb-0">
       {isPreview && (
         <div className="sticky top-0 z-[60] bg-yellow px-4 py-2 text-center text-sm font-bold text-ink">
-          Modo prévia — você está vendo o rascunho não publicado. <Link to="/admin" className="underline">Voltar ao painel</Link>
+          Modo prévia — você está vendo o rascunho não publicado. <a href="/admin" className="underline">Voltar ao painel</a>
         </div>
       )}
       <Header c={c} />
@@ -193,7 +193,7 @@ export function SalesPage({ c, media, testimonials, isPreview }: Props) {
           <SectionTitle>{c.benefits.title}</SectionTitle>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {c.benefits.items.map((b, i) => {
-              const Icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length];
+              const Icon = BENEFIT_ICONS[i % BENEFIT_ICONS.length]!;
               return (
                 <div key={i} className="rounded-3xl bg-card p-6 shadow-soft">
                   <span className={`mb-4 inline-flex size-14 items-center justify-center rounded-2xl ${ACCENTS[i % ACCENTS.length]} text-primary-foreground`}>
