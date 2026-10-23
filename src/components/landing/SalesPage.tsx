@@ -466,54 +466,66 @@ function Plans({ c }: { c: SiteContent }) {
 }
 
 function Testimonials({ c, items, onOpen }: { c: SiteContent; items: TestimonialRow[]; onOpen: (v: { url: string; caption: string }) => void }) {
-  const loopItems = items.length > 1 ? [...items, ...items] : items;
+  // Os três criativos de depoimento ficam na pasta pública /depoimentos.
+  const reviewImages = [
+    { id: "review-patricia", url: "/depoimentos/depoimento-patricia.jpg", name: "Depoimento de cliente" },
+    { id: "review-juliana", url: "/depoimentos/depoimento-juliana.jpg", name: "Depoimento de cliente" },
+    { id: "review-fernanda", url: "/depoimentos/depoimento-fernanda.png", name: "Depoimento de cliente" },
+  ];
+  const [index, setIndex] = useState(0);
+  const [paused, setPaused] = useState(false);
+
+  useEffect(() => {
+    if (paused) return;
+    const timer = window.setInterval(() => setIndex((current) => (current + 1) % reviewImages.length), 4000);
+    return () => window.clearInterval(timer);
+  }, [paused]);
+
+  const goTo = (next: number) => setIndex((next + reviewImages.length) % reviewImages.length);
+
   return (
-    <section id="depoimentos" className="overflow-hidden bg-mint/40 py-20">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <SectionTitle>{c.testimonials.title}</SectionTitle>
-        {items.length === 0 ? (
-          <div className="mx-auto max-w-xl rounded-3xl border-2 border-dashed border-purple/40 bg-card p-8 text-center">
-            <MessageCircle className="mx-auto size-10 text-purple" />
-            <p className="mt-3 font-semibold">{c.testimonials.emptyNotice}</p>
-          </div>
-        ) : (
-          <div className="testimonial-loop">
-            <div className={`testimonial-track ${items.length === 1 ? "testimonial-track-single" : ""}`}>
-              {loopItems.map((t, index) => (
-                <figure key={`${t.id}-${index}`} className="w-[min(78vw,360px)] shrink-0 overflow-hidden rounded-2xl bg-card p-2 shadow-soft sm:w-[360px]">
-                  {t.rating ? (
-                    <div className="mb-2 flex justify-center gap-0.5 text-yellow" aria-label={`${t.rating} de 5 estrelas`}>
-                      {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="size-4 fill-current" />)}
-                    </div>
-                  ) : null}
-                  {t.photo_url ? (
-                    <button type="button" onClick={() => onOpen({ url: t.photo_url!, caption: t.name || "Depoimento de cliente" })} className="block w-full overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40">
-                      <img src={t.photo_url} alt={`Depoimento visual de ${t.name || "cliente"}`} loading="lazy" className="max-h-[520px] w-full rounded-xl object-contain bg-white" />
-                    </button>
-                  ) : (
-                    <div className="flex min-h-[280px] items-center justify-center rounded-2xl bg-lilac/40 p-5 text-center">
-                      <blockquote className="whitespace-pre-line text-sm font-semibold text-foreground/90">“{t.body}”</blockquote>
-                    </div>
-                  )}
-                  {t.body && t.photo_url && <blockquote className="mt-3 line-clamp-3 whitespace-pre-line text-center text-sm text-foreground/90">“{t.body}”</blockquote>}
-                  <figcaption className="mt-3 text-center">
-                    <span className="block font-display font-extrabold text-purple">{t.name || "Cliente"}</span>
-                    {t.date_label && <span className="text-xs text-muted-foreground">{t.date_label}</span>}
-                  </figcaption>
+    <section id="depoimentos" className="overflow-hidden bg-mint/40 py-14 sm:py-20">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6">
+        <SectionTitle sub="Histórias de quem já recebeu e começou a criar.">{c.testimonials.title}</SectionTitle>
+        <div className="relative mx-auto max-w-[540px]"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={(event) => {
+            if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setPaused(false);
+          }}
+          onTouchStart={() => setPaused(true)}
+          onTouchEnd={() => setPaused(false)}>
+          <div className="overflow-hidden rounded-3xl bg-card shadow-soft">
+            <div className="flex items-start transition-transform duration-500 ease-in-out"
+              style={{ transform: `translateX(-${index * 100}%)` }} aria-live="polite">
+              {reviewImages.map((item, itemIndex) => (
+                <figure key={item.id} className="w-full min-w-0 shrink-0">
+                  <button type="button" onClick={() => onOpen({ url: item.url, caption: item.name })}
+                    className="block w-full cursor-zoom-in focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40"
+                    aria-label={`Ampliar depoimento ${itemIndex + 1}`}>
+                    <img src={item.url} alt={`Depoimento visual ${itemIndex + 1} de cliente do kit de moldes de E.V.A.`}
+                      loading={itemIndex === index ? "eager" : "lazy"} decoding="async"
+                      className="block h-auto max-h-[78vh] w-full rounded-3xl object-contain" />
+                  </button>
                 </figure>
               ))}
             </div>
           </div>
-        )}
+          <button type="button" onClick={() => goTo(index - 1)} aria-label="Depoimento anterior"
+            className="absolute left-3 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-pink text-2xl font-bold text-white shadow-soft transition hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50">‹</button>
+          <button type="button" onClick={() => goTo(index + 1)} aria-label="Próximo depoimento"
+            className="absolute right-3 top-1/2 inline-flex size-10 -translate-y-1/2 items-center justify-center rounded-full bg-pink text-2xl font-bold text-white shadow-soft transition hover:scale-105 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/50">›</button>
+          <div className="mt-5 flex items-center justify-center gap-2" aria-label="Escolher depoimento">
+            {reviewImages.map((item, itemIndex) => (
+              <button key={item.id} type="button" onClick={() => goTo(itemIndex)}
+                aria-label={`Ver depoimento ${itemIndex + 1}`} aria-current={itemIndex === index ? "true" : undefined}
+                className={`h-2.5 rounded-full transition-all ${itemIndex === index ? "w-7 bg-pink" : "w-2.5 bg-purple/30 hover:bg-purple/60"}`} />
+            ))}
+          </div>
+        </div>
+        <p className="mt-6 text-center text-sm font-semibold text-purple/80">✨ Moldes organizados, prontos para imprimir e criar!</p>
       </div>
-      <style>{`
-        .testimonial-loop { overflow: hidden; width: 100%; }
-        .testimonial-track { display: flex; width: max-content; align-items: stretch; gap: 1rem; animation: testimonial-marquee 32s linear infinite; }
-        .testimonial-loop:hover .testimonial-track, .testimonial-loop:focus-within .testimonial-track { animation-play-state: paused; }
-        .testimonial-track-single { animation: none; }
-        @keyframes testimonial-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        @media (prefers-reduced-motion: reduce) { .testimonial-track { animation: none; } }
-      `}</style>
     </section>
   );
 }
