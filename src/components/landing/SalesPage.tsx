@@ -174,8 +174,19 @@ export function SalesPage({ c, media, testimonials, isPreview }: Props) {
               {cat.imageUrl ? (
                 <img src={cat.imageUrl} alt={cat.title} loading="lazy" className="aspect-square w-full object-cover" />
               ) : (
-                <div className={`flex aspect-[4/3] items-center justify-center ${ACCENTS[i % ACCENTS.length]}`}>
-                  <span className="font-display text-5xl font-extrabold text-card/90">{cat.title.charAt(0)}</span>
+                <div className={`flex aspect-square items-center justify-center ${ACCENTS[i % ACCENTS.length]}`}>
+                  {(() => {
+                    const title = cat.title.toLocaleLowerCase("pt-BR");
+                    const Icon = title.includes("flor") ? Flower2
+                      : title.includes("animal") || title.includes("bich") ? Heart
+                      : title.includes("letra") || title.includes("número") || title.includes("forma") ? Shapes
+                      : title.includes("escolar") ? Pencil
+                      : title.includes("lembranc") ? Gift
+                      : title.includes("festa") ? Sparkles
+                      : title.includes("data") ? Star
+                      : Scissors;
+                    return <Icon className="size-14 text-card/90 sm:size-16" strokeWidth={1.8} aria-hidden />;
+                  })()}
                 </div>
               )}
               <div className="p-4">
@@ -455,8 +466,9 @@ function Plans({ c }: { c: SiteContent }) {
 }
 
 function Testimonials({ c, items, onOpen }: { c: SiteContent; items: TestimonialRow[]; onOpen: (v: { url: string; caption: string }) => void }) {
+  const loopItems = items.length > 1 ? [...items, ...items] : items;
   return (
-    <section id="depoimentos" className="bg-mint/40 py-20">
+    <section id="depoimentos" className="overflow-hidden bg-mint/40 py-20">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
         <SectionTitle>{c.testimonials.title}</SectionTitle>
         {items.length === 0 ? (
@@ -465,32 +477,43 @@ function Testimonials({ c, items, onOpen }: { c: SiteContent; items: Testimonial
             <p className="mt-3 font-semibold">{c.testimonials.emptyNotice}</p>
           </div>
         ) : (
-          <div className="columns-1 gap-5 sm:columns-2 lg:columns-3">
-            {items.map((t) => (
-              <figure key={t.id} className="mb-5 break-inside-avoid rounded-3xl bg-card p-6 shadow-soft">
-                {t.rating ? (
-                  <div className="mb-3 flex gap-0.5 text-yellow" aria-label={`${t.rating} de 5 estrelas`}>
-                    {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="size-5 fill-current" />)}
-                  </div>
-                ) : null}
-                {t.body && <blockquote className="whitespace-pre-line text-foreground/90">“{t.body}”</blockquote>}
-                {t.photo_url && !t.body && (
-                  <button type="button" onClick={() => onOpen({ url: t.photo_url!, caption: t.name })} className="block w-full">
-                    <img src={t.photo_url} alt={`Avaliação de ${t.name || "cliente"}`} loading="lazy" className="w-full rounded-2xl" />
-                  </button>
-                )}
-                <figcaption className="mt-4 flex items-center gap-3">
-                  {t.photo_url && t.body && <img src={t.photo_url} alt="" loading="lazy" className="size-12 rounded-full object-cover" />}
-                  <span>
-                    <span className="block font-display font-extrabold text-purple">{t.name}</span>
-                    {t.date_label && <span className="text-sm text-muted-foreground">{t.date_label}</span>}
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
+          <div className="testimonial-loop">
+            <div className={`testimonial-track ${items.length === 1 ? "testimonial-track-single" : ""}`}>
+              {loopItems.map((t, index) => (
+                <figure key={`${t.id}-${index}`} className="w-[min(78vw,300px)] shrink-0 overflow-hidden rounded-3xl bg-card p-3 shadow-soft sm:w-[280px]">
+                  {t.rating ? (
+                    <div className="mb-2 flex justify-center gap-0.5 text-yellow" aria-label={`${t.rating} de 5 estrelas`}>
+                      {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="size-4 fill-current" />)}
+                    </div>
+                  ) : null}
+                  {t.photo_url ? (
+                    <button type="button" onClick={() => onOpen({ url: t.photo_url!, caption: t.name || "Depoimento de cliente" })} className="block w-full overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40">
+                      <img src={t.photo_url} alt={`Depoimento visual de ${t.name || "cliente"}`} loading="lazy" className="aspect-square w-full rounded-2xl object-contain bg-white" />
+                    </button>
+                  ) : (
+                    <div className="flex aspect-square items-center justify-center rounded-2xl bg-lilac/40 p-5 text-center">
+                      <blockquote className="whitespace-pre-line text-sm font-semibold text-foreground/90">“{t.body}”</blockquote>
+                    </div>
+                  )}
+                  {t.body && t.photo_url && <blockquote className="mt-3 line-clamp-3 whitespace-pre-line text-center text-sm text-foreground/90">“{t.body}”</blockquote>}
+                  <figcaption className="mt-3 text-center">
+                    <span className="block font-display font-extrabold text-purple">{t.name || "Cliente"}</span>
+                    {t.date_label && <span className="text-xs text-muted-foreground">{t.date_label}</span>}
+                  </figcaption>
+                </figure>
+              ))}
+            </div>
           </div>
         )}
       </div>
+      <style>{`
+        .testimonial-loop { overflow: hidden; width: 100%; }
+        .testimonial-track { display: flex; width: max-content; gap: 1rem; animation: testimonial-marquee 32s linear infinite; }
+        .testimonial-loop:hover .testimonial-track, .testimonial-loop:focus-within .testimonial-track { animation-play-state: paused; }
+        .testimonial-track-single { animation: none; }
+        @keyframes testimonial-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+        @media (prefers-reduced-motion: reduce) { .testimonial-track { animation: none; } }
+      `}</style>
     </section>
   );
 }
