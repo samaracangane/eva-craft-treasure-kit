@@ -480,7 +480,7 @@ function Testimonials({ c, items, onOpen }: { c: SiteContent; items: Testimonial
           <div className="testimonial-loop">
             <div className={`testimonial-track ${items.length === 1 ? "testimonial-track-single" : ""}`}>
               {loopItems.map((t, index) => (
-                <figure key={`${t.id}-${index}`} className="w-[min(78vw,300px)] shrink-0 overflow-hidden rounded-3xl bg-card p-3 shadow-soft sm:w-[280px]">
+                <figure key={`${t.id}-${index}`} className="w-[min(78vw,360px)] shrink-0 overflow-hidden rounded-2xl bg-card p-2 shadow-soft sm:w-[360px]">
                   {t.rating ? (
                     <div className="mb-2 flex justify-center gap-0.5 text-yellow" aria-label={`${t.rating} de 5 estrelas`}>
                       {Array.from({ length: t.rating }).map((_, i) => <Star key={i} className="size-4 fill-current" />)}
@@ -488,10 +488,10 @@ function Testimonials({ c, items, onOpen }: { c: SiteContent; items: Testimonial
                   ) : null}
                   {t.photo_url ? (
                     <button type="button" onClick={() => onOpen({ url: t.photo_url!, caption: t.name || "Depoimento de cliente" })} className="block w-full overflow-hidden rounded-2xl focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40">
-                      <img src={t.photo_url} alt={`Depoimento visual de ${t.name || "cliente"}`} loading="lazy" className="aspect-square w-full rounded-2xl object-contain bg-white" />
+                      <img src={t.photo_url} alt={`Depoimento visual de ${t.name || "cliente"}`} loading="lazy" className="max-h-[520px] w-full rounded-xl object-contain bg-white" />
                     </button>
                   ) : (
-                    <div className="flex aspect-square items-center justify-center rounded-2xl bg-lilac/40 p-5 text-center">
+                    <div className="flex min-h-[280px] items-center justify-center rounded-2xl bg-lilac/40 p-5 text-center">
                       <blockquote className="whitespace-pre-line text-sm font-semibold text-foreground/90">“{t.body}”</blockquote>
                     </div>
                   )}
@@ -508,7 +508,7 @@ function Testimonials({ c, items, onOpen }: { c: SiteContent; items: Testimonial
       </div>
       <style>{`
         .testimonial-loop { overflow: hidden; width: 100%; }
-        .testimonial-track { display: flex; width: max-content; gap: 1rem; animation: testimonial-marquee 32s linear infinite; }
+        .testimonial-track { display: flex; width: max-content; align-items: stretch; gap: 1rem; animation: testimonial-marquee 32s linear infinite; }
         .testimonial-loop:hover .testimonial-track, .testimonial-loop:focus-within .testimonial-track { animation-play-state: paused; }
         .testimonial-track-single { animation: none; }
         @keyframes testimonial-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
