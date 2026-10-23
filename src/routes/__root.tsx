@@ -25,6 +25,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
+            search={{ preview: undefined }}
             className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
             Go home
@@ -78,11 +79,11 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "Kit +5.000 Moldes de E.V.A. — Cantinho Criativo" },
+      { name: "description", content: "Mais de 5.000 moldes de E.V.A. para artesãs, professoras e decoradoras. Planos Básico e Premium." },
+      { name: "author", content: "Cantinho Criativo" },
+      { property: "og:title", content: "Kit +5.000 Moldes de E.V.A. — Cantinho Criativo" },
+      { property: "og:description", content: "Mais de 5.000 moldes de E.V.A. para inspirar suas criações artesanais." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@Lovable" },

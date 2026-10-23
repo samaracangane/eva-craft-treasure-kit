@@ -4,7 +4,7 @@ import { DEFAULT_CONTENT, mergeContent } from "@/lib/content";
 import { getPublicSite } from "@/lib/site.functions";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (s: Record<string, unknown>) => ({ preview: s.preview === "1" || s.preview === 1 ? 1 : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ preview: s["preview"] === "1" || s["preview"] === 1 ? 1 : undefined }),
   loaderDeps: ({ search }) => ({ preview: !!search.preview }),
   loader: ({ deps }) => getPublicSite({ data: { preview: deps.preview } }),
   head: () => ({
