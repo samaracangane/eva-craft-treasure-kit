@@ -4,7 +4,7 @@ import { DEFAULT_CONTENT, mergeContent } from "@/lib/content";
 import { getPublicSite } from "@/lib/site.functions";
 
 export const Route = createFileRoute("/")({
-  validateSearch: (s: Record<string, unknown>) => ({ preview: s.preview === "1" || s.preview === 1 ? 1 : undefined }),
+  validateSearch: (s: Record<string, unknown>) => ({ preview: s["preview"] === "1" || s["preview"] === 1 ? 1 : undefined }),
   loaderDeps: ({ search }) => ({ preview: !!search.preview }),
   loader: ({ deps }) => getPublicSite({ data: { preview: deps.preview } }),
   head: () => ({
@@ -23,6 +23,14 @@ export const Route = createFileRoute("/")({
 function Index() {
   const d = Route.useLoaderData();
   const { preview } = Route.useSearch();
-  const c = mergeContent(DEFAULT_CONTENT, JSON.parse(d.contentJson));
-  return <SalesPage c={c} media={d.media} testimonials={d.testimonials} isPreview={!!preview} />;
+  const contentJson = d?.contentJson || "{}";
+  const c = mergeContent(DEFAULT_CONTENT, JSON.parse(contentJson));
+  return (
+    <SalesPage
+      c={c}
+      media={d?.media ?? []}
+      testimonials={d?.testimonials ?? []}
+      isPreview={!!preview}
+    />
+  );
 }
