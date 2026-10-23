@@ -23,6 +23,14 @@ export const Route = createFileRoute("/")({
 function Index() {
   const d = Route.useLoaderData();
   const { preview } = Route.useSearch();
-  const c = mergeContent(DEFAULT_CONTENT, JSON.parse(d.contentJson));
-  return <SalesPage c={c} media={d.media} testimonials={d.testimonials} isPreview={!!preview} />;
+  const contentJson = d?.contentJson || "{}";
+  const c = mergeContent(DEFAULT_CONTENT, JSON.parse(contentJson));
+  return (
+    <SalesPage
+      c={c}
+      media={d?.media ?? []}
+      testimonials={d?.testimonials ?? []}
+      isPreview={!!preview}
+    />
+  );
 }
