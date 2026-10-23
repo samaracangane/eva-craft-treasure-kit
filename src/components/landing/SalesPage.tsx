@@ -468,9 +468,9 @@ function Plans({ c }: { c: SiteContent }) {
 function Testimonials({ c, items, onOpen }: { c: SiteContent; items: TestimonialRow[]; onOpen: (v: { url: string; caption: string }) => void }) {
   // Os três criativos de depoimento ficam na pasta pública /depoimentos.
   const reviewImages = [
-    { id: "review-patricia", url: "/depoimentos/depoimento-patricia.jpg", name: "Depoimento de cliente" },
-    { id: "review-juliana", url: "/depoimentos/depoimento-juliana.jpg", name: "Depoimento de cliente" },
-    { id: "review-fernanda", url: "/depoimentos/depoimento-fernanda.png", name: "Depoimento de cliente" },
+    { id: "review-patricia", url: "/depoimento-patricia.jpg", name: "Depoimento de cliente" },
+    { id: "review-juliana", url: "/depoimento-juliana.jpg", name: "Depoimento de cliente" },
+    { id: "review-fernanda", url: "/depoimento-fernanda.png", name: "Depoimento de cliente" },
   ];
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
