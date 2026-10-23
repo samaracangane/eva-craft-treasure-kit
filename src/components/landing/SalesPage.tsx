@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import {
-  ArrowRight, Check, Clock, Gift, Heart, Instagram, Lightbulb, Menu, Pause, Play, Shapes,
+  ArrowRight, Check, Clock, Gift, Heart, Instagram, Lightbulb, Menu, Shapes,
   ShoppingBag, Sparkles, Star, X, Scissors, Pencil, Flower2, MonitorSmartphone, AlertTriangle, MessageCircle,
 } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet";
@@ -347,7 +347,6 @@ function Header({ c }: { c: SiteContent }) {
 function InfiniteCarousel({ title, items, speed, height, onOpen }: {
   title: string; items: MediaRow[]; speed: number; height: number; onOpen: (v: { url: string; caption: string }) => void;
 }) {
-  const [paused, setPaused] = useState(false);
   const [h, setH] = useState(height);
   useEffect(() => {
     const update = () => setH(window.innerWidth < 640 ? Math.round(height * 0.7) : height);
@@ -363,19 +362,10 @@ function InfiniteCarousel({ title, items, speed, height, onOpen }: {
     <section className="py-16" aria-label={title}>
       <div className="mx-auto mb-8 flex max-w-7xl flex-col items-center gap-4 px-4 text-center">
         <h2 className="section-title text-3xl text-pink sm:text-5xl">{title}</h2>
-        <button
-          type="button"
-          onClick={() => setPaused((p) => !p)}
-          className="inline-flex items-center gap-2 rounded-full border bg-card px-4 py-2 text-sm font-semibold"
-          aria-pressed={paused}
-        >
-          {paused ? <Play className="size-4" /> : <Pause className="size-4" />} {paused ? "Continuar" : "Pausar"} movimento
-        </button>
       </div>
       <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_6%,black_94%,transparent)]">
         <ul
           className="marquee-track flex w-max gap-4"
-          data-paused={paused}
           style={{ "--marquee-duration": `${Math.max(5, speed) * reps}s` } as CSSProperties}
         >
           {loop.map((m, i) => (
@@ -509,17 +499,25 @@ function About({ c }: { c: SiteContent }) {
   const a = c.about;
   const ig = safeLink(c.links.instagram);
   const other = safeLink(c.links.other);
+  const [ratio, setRatio] = useState<number | null>(null);
   return (
     <section id="quem-sou-eu" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
-        <div className="relative mx-auto w-full max-w-sm">
+        <div className="relative mx-auto w-full max-w-xs">
           <div className={`absolute -inset-3 -rotate-3 bg-turquoise/50 ${a.photoShape === "circle" ? "rounded-full" : "rounded-[2.5rem]"}`} aria-hidden />
           {a.photoUrl ? (
-            <div className={`relative aspect-square overflow-hidden border-8 border-card shadow-soft ${a.photoShape === "circle" ? "rounded-full" : "rounded-[2rem]"}`}>
+            <div
+              className={`relative overflow-hidden border-8 border-card shadow-soft ${a.photoShape === "circle" ? "rounded-full" : "rounded-[2rem]"}`}
+              style={{ aspectRatio: ratio ? String(ratio) : "3 / 4" }}
+            >
               <img
                 src={a.photoUrl}
                 alt={`Foto de ${a.name}`}
                 loading="lazy"
+                onLoad={(e) => {
+                  const n = e.currentTarget;
+                  if (n.naturalWidth > 0 && n.naturalHeight > 0) setRatio(n.naturalWidth / n.naturalHeight);
+                }}
                 className="size-full object-cover"
                 style={{ objectPosition: `50% ${a.photoPosY}%`, transform: `scale(${a.photoZoom})` }}
               />
