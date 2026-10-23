@@ -79,10 +79,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Kit +5.000 Moldes de E.V.A. — Cantinho Criativo" },
+      { title: "Kit +5.000 Moldes de E.V.A. — Samara Criar Art's" },
       { name: "description", content: "Mais de 5.000 moldes de E.V.A. para artesãs, professoras e decoradoras. Planos Básico e Premium." },
-      { name: "author", content: "Cantinho Criativo" },
-      { property: "og:title", content: "Kit +5.000 Moldes de E.V.A. — Cantinho Criativo" },
+      { name: "author", content: "Samara Criar Art's" },
+      { property: "og:title", content: "Kit +5.000 Moldes de E.V.A. — Samara Criar Art's" },
       { property: "og:description", content: "Mais de 5.000 moldes de E.V.A. para inspirar suas criações artesanais." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

@@ -9,9 +9,9 @@ export const Route = createFileRoute("/")({
   loader: ({ deps }) => getPublicSite({ data: { preview: deps.preview } }),
   head: () => ({
     meta: [
-      { title: "Kit +5.000 Moldes de E.V.A. — Planos a partir de R$ 9,90" },
+      { title: "Kit +5.000 Moldes de E.V.A. — Samara Criar Art's | Planos a partir de R$ 9,90" },
       { name: "description", content: "Mais de 5.000 moldes de E.V.A. para artesãs, professoras e decoradoras. Escolha o Plano Básico ou Premium." },
-      { property: "og:title", content: "Kit com Mais de 5.000 Moldes de E.V.A." },
+      { property: "og:title", content: "Kit com Mais de 5.000 Moldes de E.V.A. — Samara Criar Art's" },
       { property: "og:description", content: "Transforme suas ideias em criações incríveis. Planos Básico e Premium." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

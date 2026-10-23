@@ -65,7 +65,7 @@ export type SiteContent = {
 };
 
 export const DEFAULT_CONTENT: SiteContent = {
-  brand: { name: "Cantinho Criativo", product: "Kit +5.000 Moldes de E.V.A.", logoUrl: "" },
+  brand: { name: "Samara Criar Art's", product: "Kit +5.000 Moldes de E.V.A.", logoUrl: "" },
   colors: {
     pink: "#ec3a8c",
     purple: "#7b3fb8",
