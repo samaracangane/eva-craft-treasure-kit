@@ -499,25 +499,17 @@ function About({ c }: { c: SiteContent }) {
   const a = c.about;
   const ig = safeLink(c.links.instagram);
   const other = safeLink(c.links.other);
-  const [ratio, setRatio] = useState<number | null>(null);
   return (
     <section id="quem-sou-eu" className="mx-auto max-w-6xl px-4 py-20 sm:px-6">
       <div className="grid items-center gap-10 md:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
         <div className="relative mx-auto w-full max-w-xs">
           <div className={`absolute -inset-3 -rotate-3 bg-turquoise/50 ${a.photoShape === "circle" ? "rounded-full" : "rounded-[2.5rem]"}`} aria-hidden />
           {a.photoUrl ? (
-            <div
-              className={`relative overflow-hidden border-8 border-card shadow-soft ${a.photoShape === "circle" ? "rounded-full" : "rounded-[2rem]"}`}
-              style={{ aspectRatio: ratio ? String(ratio) : "3 / 4" }}
-            >
+            <div className={`relative aspect-[3/4] overflow-hidden border-8 border-card shadow-soft ${a.photoShape === "circle" ? "rounded-full" : "rounded-[2rem]"}`}>
               <img
                 src={a.photoUrl}
                 alt={`Foto de ${a.name}`}
                 loading="lazy"
-                onLoad={(e) => {
-                  const n = e.currentTarget;
-                  if (n.naturalWidth > 0 && n.naturalHeight > 0) setRatio(n.naturalWidth / n.naturalHeight);
-                }}
                 className="size-full object-cover"
                 style={{ objectPosition: `50% ${a.photoPosY}%`, transform: `scale(${a.photoZoom})` }}
               />
