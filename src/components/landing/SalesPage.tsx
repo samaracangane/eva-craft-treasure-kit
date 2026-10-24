@@ -174,18 +174,32 @@ export function SalesPage({ c, media, testimonials, isPreview }: Props) {
               {cat.imageUrl ? (
                 <img src={cat.imageUrl} alt={cat.title} loading="lazy" className="aspect-square w-full object-cover" />
               ) : (
-                <div className={`flex aspect-square items-center justify-center ${ACCENTS[i % ACCENTS.length]}`}>
+                <div className={`relative flex aspect-square items-center justify-center overflow-hidden ${ACCENTS[i % ACCENTS.length]}`}>
                   {(() => {
                     const title = cat.title.toLocaleLowerCase("pt-BR");
-                    const Icon = title.includes("flor") ? Flower2
-                      : title.includes("animal") || title.includes("bich") ? Heart
-                      : title.includes("letra") || title.includes("número") || title.includes("forma") ? Shapes
-                      : title.includes("escolar") ? Pencil
-                      : title.includes("lembranc") ? Gift
-                      : title.includes("festa") ? Sparkles
-                      : title.includes("data") ? Star
-                      : Scissors;
-                    return <Icon className="size-14 text-card/90 sm:size-16" strokeWidth={1.8} aria-hidden />;
+                    const art = title.includes("flor") || title.includes("folh") || title.includes("planta")
+                      ? ["🌸", "🌿", "🌼"]
+                      : title.includes("animal") || title.includes("bich")
+                      ? ["🦋", "🐞", "🐝"]
+                      : title.includes("letra") || title.includes("número") || title.includes("forma")
+                      ? ["🔤", "🔢", "⭐"]
+                      : title.includes("escolar")
+                      ? ["✏️", "📚", "🎒"]
+                      : title.includes("lembranc")
+                      ? ["🎁", "🎀", "💝"]
+                      : title.includes("festa") || title.includes("anivers")
+                      ? ["🎉", "🎈", "🎂"]
+                      : title.includes("data")
+                      ? ["📅", "💐", "❤️"]
+                      : ["✂️", "🧵", "🌈"];
+                    return (
+                      <div className="relative flex items-center justify-center gap-1 sm:gap-2" role="img" aria-label={`Ilustração colorida de ${cat.title}`}>
+                        <span className="absolute -left-5 -top-9 size-20 rounded-full bg-white/25" aria-hidden />
+                        <span className="relative -rotate-12 text-4xl drop-shadow-sm sm:text-5xl">{art[0]}</span>
+                        <span className="relative z-10 -translate-y-3 scale-125 text-5xl drop-shadow-md sm:text-6xl">{art[1]}</span>
+                        <span className="relative rotate-12 text-4xl drop-shadow-sm sm:text-5xl">{art[2]}</span>
+                      </div>
+                    );
                   })()}
                 </div>
               )}
