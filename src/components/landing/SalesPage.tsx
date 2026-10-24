@@ -8,6 +8,7 @@ import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/s
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { hexToVar, safeLink, type SiteContent } from "@/lib/content";
+import { EvaArt, evaKindFor } from "@/components/landing/EvaArt";
 import type { MediaRow, TestimonialRow } from "@/lib/site.functions";
 import heroFallback from "@/assets/hero.jpg";
 
@@ -175,32 +176,10 @@ export function SalesPage({ c, media, testimonials, isPreview }: Props) {
                 <img src={cat.imageUrl} alt={cat.title} loading="lazy" className="aspect-square w-full object-cover" />
               ) : (
                 <div className={`relative flex aspect-square items-center justify-center overflow-hidden ${ACCENTS[i % ACCENTS.length]}`}>
-                  {(() => {
-                    const title = cat.title.toLocaleLowerCase("pt-BR");
-                    const art = title.includes("flor") || title.includes("folh") || title.includes("planta")
-                      ? ["🌸", "🌿", "🌼"]
-                      : title.includes("animal") || title.includes("bich")
-                      ? ["🦋", "🐞", "🐝"]
-                      : title.includes("letra") || title.includes("número") || title.includes("forma")
-                      ? ["🔤", "🔢", "⭐"]
-                      : title.includes("escolar")
-                      ? ["✏️", "📚", "🎒"]
-                      : title.includes("lembranc")
-                      ? ["🎁", "🎀", "💝"]
-                      : title.includes("festa") || title.includes("anivers")
-                      ? ["🎉", "🎈", "🎂"]
-                      : title.includes("data")
-                      ? ["📅", "💐", "❤️"]
-                      : ["✂️", "🧵", "🌈"];
-                    return (
-                      <div className="relative flex items-center justify-center gap-1 sm:gap-2" role="img" aria-label={`Ilustração colorida de ${cat.title}`}>
-                        <span className="absolute -left-5 -top-9 size-20 rounded-full bg-white/25" aria-hidden />
-                        <span className="relative -rotate-12 text-4xl drop-shadow-sm sm:text-5xl">{art[0]}</span>
-                        <span className="relative z-10 -translate-y-3 scale-125 text-5xl drop-shadow-md sm:text-6xl">{art[1]}</span>
-                        <span className="relative rotate-12 text-4xl drop-shadow-sm sm:text-5xl">{art[2]}</span>
-                      </div>
-                    );
-                  })()}
+                  <div className="relative flex h-full w-full items-center justify-center" role="img" aria-label={`Ilustração estilo E.V.A. de ${cat.title}`}>
+                    <span className="absolute -left-5 -top-9 size-20 rounded-full bg-white/25" aria-hidden />
+                    <EvaArt kind={evaKindFor(cat.title)} className="size-3/4 drop-shadow-md" />
+                  </div>
                 </div>
               )}
               <div className="p-4">
