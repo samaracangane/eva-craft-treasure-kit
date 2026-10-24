@@ -293,7 +293,7 @@ export function SalesPage({ c, media, testimonials, isPreview }: Props) {
             <div key={v} className="rounded-3xl bg-card p-6 text-card-foreground shadow-soft">
               <p className="font-display text-xl font-extrabold text-purple">{p.name}</p>
               <p className="my-2 font-display text-5xl font-extrabold text-pink">{p.price}</p>
-              <CheckoutButton url={p.checkoutUrl} label={label} variant={v} />
+              <CheckoutButton url={v === "basic" ? "https://pay.wiapy.com/xgPuzIv2TS9P" : p.checkoutUrl} label={label} variant={v} />
             </div>
           ))}
         </div>
@@ -445,7 +445,7 @@ function Plans({ c }: { c: SiteContent }) {
                     </li>
                   ))}
                 </ul>
-                <CheckoutButton url={p.checkoutUrl} label={p.cta} variant={isPremium ? "premium" : "basic"} />
+                <CheckoutButton url={!isPremium ? "https://pay.wiapy.com/xgPuzIv2TS9P" : p.checkoutUrl} label={p.cta} variant={isPremium ? "premium" : "basic"} />
               </article>
             );
           })}
