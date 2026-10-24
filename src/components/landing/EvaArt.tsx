@@ -246,7 +246,7 @@ function CraftArt() {
   );
 }
 
-const ART: Record<EvaKind, () => JSX.Element> = {
+const ART: Record<EvaKind, () => ReactElement> = {
   flower: FlowerArt,
   animal: AnimalArt,
   letters: LettersArt,
