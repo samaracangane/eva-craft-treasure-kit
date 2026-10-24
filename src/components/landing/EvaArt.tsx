@@ -1,3 +1,5 @@
+import type { ReactElement } from "react";
+
 /**
  * E.V.A.-style craft illustrations for the category cards.
  * Each drawing mimics cut-foam pieces: flat fills, thick white outlines,
