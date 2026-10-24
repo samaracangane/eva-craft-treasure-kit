@@ -379,34 +379,49 @@ function InfiniteCarousel({ title, items, speed, height, onOpen }: {
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
   }, [height]);
-  // Repeat enough to always fill the screen, then duplicate for a seamless -50% loop.
-  const reps = Math.max(1, Math.ceil(8 / items.length));
-  const base = Array.from({ length: reps }, () => items).flat();
-  const loop = [...base, ...base];
+  // Split into stacked rows (one above the other) when there are enough images.
+  const rowCount = items.length >= 10 ? 2 : 1;
+  const perRow = Math.ceil(items.length / rowCount);
+  const rows = Array.from({ length: rowCount }, (_, r) => items.slice(r * perRow, (r + 1) * perRow));
+  // Rows shrink so the stacked layout still fits nicely on screen.
+  const rowH = rowCount > 1 ? Math.round(h * 0.72) : h;
   return (
     <section className="py-16" aria-label={title}>
       <div className="mx-auto mb-8 flex max-w-7xl flex-col items-center gap-4 px-4 text-center">
         <h2 className="section-title text-3xl text-pink sm:text-5xl">{title}</h2>
       </div>
-      <div className="relative overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_6%,black_94%,transparent)]">
-        <ul
-          className="marquee-track flex w-max gap-4"
-          style={{ "--marquee-duration": `${Math.max(5, speed) * reps}s` } as CSSProperties}
-        >
-          {loop.map((m, i) => (
-            <li key={`${m.id}-${i}`} aria-hidden={i >= base.length || undefined}>
-              <button
-                type="button"
-                tabIndex={i >= base.length ? -1 : 0}
-                onClick={() => onOpen({ url: m.url, caption: m.caption })}
-                className="block overflow-hidden rounded-3xl border-4 border-card shadow-soft focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40"
-                style={{ height: h }}
-              >
-                <img src={m.url} alt={m.caption || "Trabalho em E.V.A."} loading="lazy" decoding="async" className="h-full w-auto object-cover transition-transform duration-300 hover:scale-105" />
-              </button>
-            </li>
-          ))}
-        </ul>
+      <div className="relative space-y-4 overflow-hidden [mask-image:linear-gradient(90deg,transparent,black_6%,black_94%,transparent)]">
+        {rows.map((row, r) => {
+          // Repeat enough to always fill the screen, then duplicate for a seamless -50% loop.
+          // Odd rows run in the opposite direction (rightwards).
+          const reps = Math.max(1, Math.ceil(8 / row.length));
+          const base = Array.from({ length: reps }, () => row).flat();
+          const loop = [...base, ...base];
+          return (
+            <ul
+              key={r}
+              className="marquee-track flex w-max gap-4"
+              style={{
+                "--marquee-duration": `${Math.max(5, speed) * reps}s`,
+                animationDirection: r % 2 === 1 ? "reverse" : "normal",
+              } as CSSProperties}
+            >
+              {loop.map((m, i) => (
+                <li key={`${m.id}-${i}`} aria-hidden={i >= base.length || undefined}>
+                  <button
+                    type="button"
+                    tabIndex={i >= base.length ? -1 : 0}
+                    onClick={() => onOpen({ url: m.url, caption: m.caption })}
+                    className="block overflow-hidden rounded-3xl border-4 border-card shadow-soft focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ring/40"
+                    style={{ height: rowH }}
+                  >
+                    <img src={m.url} alt={m.caption || "Trabalho em E.V.A."} loading="lazy" decoding="async" className="h-full w-auto object-cover transition-transform duration-300 hover:scale-105" />
+                  </button>
+                </li>
+              ))}
+            </ul>
+          );
+        })}
       </div>
     </section>
   );
