@@ -26,7 +26,7 @@ function Index() {
   const contentJson = d?.contentJson || "{}";
   const mergedContent = mergeContent(DEFAULT_CONTENT, JSON.parse(contentJson));
   // Atualiza a contagem também nos textos salvos no banco de dados do site.
-  const c = JSON.parse(JSON.stringify(mergedContent).replaceAll("5.000", "15.000").replaceAll("5 mil", "15 mil"));
+  const c = JSON.parse(JSON.stringify(mergedContent).replace(/(?<![0-9])5\.000/g, "15.000").replace(/(?<![0-9])5 mil/g, "15 mil"));
   return (
     <SalesPage
       c={c}
