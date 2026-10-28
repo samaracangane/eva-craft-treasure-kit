@@ -65,7 +65,7 @@ export type SiteContent = {
 };
 
 export const DEFAULT_CONTENT: SiteContent = {
-  brand: { name: "Samara Criar Art's", product: "Kit +5.000 Moldes de E.V.A.", logoUrl: "" },
+  brand: { name: "Samara Criar Art's", product: "Kit +15.000 Moldes de E.V.A.", logoUrl: "" },
   colors: {
     pink: "#ec3a8c",
     purple: "#7b3fb8",
@@ -76,22 +76,22 @@ export const DEFAULT_CONTENT: SiteContent = {
   },
   hero: {
     top: "MAIS DE",
-    big: "5.000 MOLDES",
+    big: "15.000 MOLDES",
     suffix: "DE E.V.A.!",
     sub1: "TRANSFORME SUAS IDEIAS",
     sub2: "EM CRIAÇÕES INCRÍVEIS!",
     text: "Imagine ter milhares de ideias criativas ao seu alcance! Encontre inspiração para seus trabalhos artesanais, crie peças encantadoras e tenha muito mais praticidade no seu dia a dia.",
     highlight: "Mais criatividade para você. Mais possibilidades para suas mãos!",
-    cta: "QUERO MEUS +5.000 MOLDES AGORA!",
+    cta: "QUERO MEUS +15.000 MOLDES AGORA!",
     ctaNote: "Escolha seu plano e confira tudo o que está incluído na coleção.",
     showDigital: false,
     imageUrl: "",
-    badges: ["Mais de 5.000 moldes", "Inspire-se e crie", "Um mundo de possibilidades"],
+    badges: ["Mais de 15.000 moldes", "Inspire-se e crie", "Um mundo de possibilidades"],
   },
   carousel: { title: "OLHA QUANTA INSPIRAÇÃO VOCÊ VAI ENCONTRAR!", speed: 45, height: 260 },
   categories: {
     title: "UM UNIVERSO DE POSSIBILIDADES PARA SUAS CRIAÇÕES!",
-    phrase: "Mais de 5.000 moldes reunidos em uma coleção para inspirar seus projetos artesanais!",
+    phrase: "Mais de 15.000 moldes reunidos em uma coleção para inspirar seus projetos artesanais!",
     items: [
       { title: "Flores e folhagens", desc: "Pétalas, folhas e arranjos delicados.", imageUrl: "" },
       { title: "Animais e bichinhos", desc: "Bichinhos fofos para todas as idades.", imageUrl: "" },
@@ -179,7 +179,7 @@ export const DEFAULT_CONTENT: SiteContent = {
   faq: {
     title: "DÚVIDAS FREQUENTES",
     items: [
-      { q: "O que é o Kit com Mais de 5.000 Moldes de E.V.A.?", a: "É uma coleção digital de moldes para servir como referência em diferentes projetos artesanais, de acordo com a descrição do produto." },
+      { q: "O que é o Kit com Mais de 15.000 Moldes de E.V.A.?", a: "É uma coleção digital de moldes para servir como referência em diferentes projetos artesanais, de acordo com a descrição do produto." },
       { q: "Como vou receber o material?", a: "[Conteúdo demonstrativo — descreva aqui o método de entrega real: página de acesso, e-mail ou outro canal.]" },
       { q: "Qual é a diferença entre o Básico e o Premium?", a: "Confira a tabela de comparação na seção de planos, que mostra o que cada opção inclui." },
       { q: "Preciso receber algum produto físico?", a: "[Conteúdo demonstrativo — informe se a oferta é composta somente por arquivos digitais.]" },
